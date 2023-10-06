@@ -6,12 +6,12 @@
         </div>
         <table class="w3-table-all">
             <thead>
-            <tr>
-                <th>No</th>
-                <th>제목</th>
-                <th>작성자</th>
-                <th>등록일시</th>
-            </tr>
+                <tr>
+                    <th>No</th>
+                    <th>제목</th>
+                    <th>작성자</th>
+                    <th>등록일시</th>
+                </tr>
             </thead>
             <tbody>
                 <tr v-for="(row, idx) in list" :key="idx">
@@ -79,26 +79,24 @@ export default {
   },
   methods: {
     fnGetList() {
-      this.list = [
-        {
-            "idx":1,
-            "title": "제목1",
-            "author": "작성자1",
-            "created_at": "작성일시1"
-        },
-        {
-            "idx":1,
-            "title": "제목1",
-            "author": "작성자1",
-            "created_at": "작성일시1"
-        },
-        {
-            "idx":1,
-            "title": "제목1",
-            "author": "작성자1",
-            "created_at": "작성일시1"
+      this.requestBody = { // 데이터 전송
+        keyword: this.keyword,
+        page: this.page,
+        size: this.size
+      }
+
+      this.$axios.get(this.$serverUrl + "/board/list", {
+        params: this.requestBody,
+        headers: {}
+      }).then((res) => {
+
+        this.list = res.data //서버 -> 데이터를 목록으로 보내므로 바로 할당하여 사용할 수 있다.
+
+      }).catch((err) => {
+        if (err.message.indexOf('Network Error') > -1) {
+          alert('Network Error. \n잠시 후 다시 시도해주세요.')
         }
-      ]
+      })
     }
   }
 }
