@@ -1,0 +1,17 @@
+/* board */
+.board-list,
+.board-detail {
+	width: 768px;
+	margin:0 auto;
+}
+.board-detail {
+	text-align: left;
+}
+.board-contents {
+	padding: 12px 8px;
+	border-bottom: 1px solid #eee;
+}
+.common-buttons {
+	padding: 8px;
+	text-align: right;
+}
