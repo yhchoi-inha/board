@@ -79,7 +79,30 @@ export default {
   },
   methods: {
     fnGetList() {
-      this.requestBody = { // 데이터 전송
+        // temp data
+    //     this.list = [
+    //     {
+    //         "idx":1,
+    //         "title": "제목1",
+    //         "author": "작성자1",
+    //         "created_at": "작성일시1"
+    //     },
+    //     {
+    //         "idx":1,
+    //         "title": "제목1",
+    //         "author": "작성자1",
+    //         "created_at": "작성일시1"
+    //     },
+    //     {
+    //         "idx":1,
+    //         "title": "제목1",
+    //         "author": "작성자1",
+    //         "created_at": "작성일시1"
+    //     }
+    //   ]
+
+    // back data
+      this.requestBody = { // 데이터 전송        
         keyword: this.keyword,
         page: this.page,
         size: this.size
@@ -88,15 +111,33 @@ export default {
       this.$axios.get(this.$serverUrl + "/board/list", {
         params: this.requestBody,
         headers: {}
-      }).then((res) => {
+      }).then((res) => {      
 
-        this.list = res.data //서버 -> 데이터를 목록으로 보내므로 바로 할당하여 사용할 수 있다.
+        this.list = res.data  //서버에서 데이터를 목록으로 보내므로 바로 할당하여 사용할 수 있다.
 
       }).catch((err) => {
         if (err.message.indexOf('Network Error') > -1) {
-          alert('Network Error. \n잠시 후 다시 시도해주세요.')
+          alert('네트워크가 원활하지 않습니다.\n잠시 후 다시 시도해주세요.')
         }
       })
+    },
+    fnView(idx) {
+      this.requestBody.idx = idx
+      this.$router.push({
+        path: './detail',
+        query: this.requestBody
+      })
+    },
+    fnWrite() {
+      this.$router.push({
+        path: './write'
+      })
+    },
+    fnPage(n) {
+      if (this.page !== n) {
+        this.page = n
+        this.fnGetList()
+      }
     }
   }
 }
